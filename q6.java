@@ -1,11 +1,11 @@
-package viva1;
+
 import java.util.Scanner;
 
 public class q6 {
 
-    static void q6() {
+    public static void main(String[]args) {
         Scanner input = new Scanner(System.in);
-        System.out.println("enter teh number of logs(between 1 and 100):");
+        System.out.println("enter the number of logs(between 1 and 100):");
         int T = input.nextInt();
 
         for (int t = 0; t < T; t++) {
