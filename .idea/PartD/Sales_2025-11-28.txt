@@ -1,0 +1,9 @@
+============================================== Date: 2025-11-28 Time: 03:17 pm
+Customer: as
+Item(s):
+  - 1 Quantity: 1
+  - 1 Quantity: 1
+Total: RM2.0
+Transaction Method: credit card
+Employee: John Doe
+============================================== 
