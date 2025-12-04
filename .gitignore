@@ -1,0 +1,10 @@
+# Ignore all Java compiled files
+*.class
+# Ignore operating system files
+.DS_Store
+Thumbs.db
+# Ignore files created by IDEs (if applicable)
+/bin/
+.settings/
+.classpath
+.project
