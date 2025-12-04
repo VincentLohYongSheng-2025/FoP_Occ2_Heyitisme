@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+public class AttendanceTester{
     public static void main(String[] args) {
 
         allAttendanceLog all = new allAttendanceLog();
