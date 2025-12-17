@@ -10,7 +10,7 @@ import java.util.*;
  * @author Asus
  */
 public class UserManager {
-    private static final String FILE_NAME = "users.csv";
+    private static final String FILE_NAME = "employees.csv";
 
     // Load all users from the CSV file into a List
     public static List<User> loadUsers() throws IOException {
