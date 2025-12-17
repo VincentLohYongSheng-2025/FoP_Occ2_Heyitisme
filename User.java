@@ -16,7 +16,7 @@ public class User {
     private String role;     // "manager" or "employee"
     private String ID;     // Real Name (e.g., Tan Guan Han)
 
-    public User(String username, String password, String role, String ID) {
+    public User(String ID, String username, String role, String password) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -33,5 +33,5 @@ public class User {
     public void setUsername(String username) { this.username = username; }
     public void setPassword(String password) { this.password = password; }
     public void setRole(String role) { this.role = role; }
-    public void setName(String ID) { this.ID = ID; }
+    public void setID(String ID) { this.ID = ID; }
 }
