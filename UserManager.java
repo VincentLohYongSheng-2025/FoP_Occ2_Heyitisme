@@ -26,7 +26,7 @@ public class UserManager {
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line;
         while ((line = br.readLine()) != null) {
-            // CSV Format: username,password,role,name
+            // CSV Format: ID,username,role,password
             String[] data = line.split(",");
             
             // Basic validation to ensure line is complete
@@ -48,7 +48,7 @@ public class UserManager {
         // 2. Append new user to file
         BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true));
         // Format: username,password,role,name
-        bw.write(user.getUsername() + "," + user.getPassword() + "," + user.getRole() + "," + user.getName());
+        bw.write(user.getUsername() + "," + user.getPassword() + "," + user.getRole() + "," + user.getID());
         bw.newLine();
         bw.close();
     }
