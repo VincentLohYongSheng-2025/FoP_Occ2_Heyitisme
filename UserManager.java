@@ -19,11 +19,12 @@ public class UserManager {
 
         // If file doesn't exist, return empty list (or create file)
         if (!file.exists()) {
-            file.createNewFile();
+            System.out.println("User data file not found. A new one will be created upon adding users.");
             return users;
         }
 
         BufferedReader br = new BufferedReader(new FileReader(file));
+        br.readLine(); // Skip header line if present
         String line;
         while ((line = br.readLine()) != null) {
             // CSV Format: ID,username,role,password
@@ -41,23 +42,23 @@ public class UserManager {
     // Add a new user to the CSV file
     public static void addUser(User user) throws IOException {
         // 1. Check if User ID already exists
-        if (isUserExists(user.getUsername())) {
-            throw new IOException("User ID " + user.getUsername() + " already exists.");
+        if (isUserExists(user.getID())) {
+            throw new IOException("User ID " + user.getID() + " already exists.");
         }
 
         // 2. Append new user to file
         BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true));
-        // Format: username,password,role,name
-        bw.write(user.getUsername() + "," + user.getPassword() + "," + user.getRole() + "," + user.getID());
+        // Format: ID,username,role,password
+        bw.write(user.getID() + "," + user.getUsername() + "," + user.getRole() + "," + user.getPassword());
         bw.newLine();
         bw.close();
     }
 
     // Helper to check for duplicates
-    public static boolean isUserExists(String username) throws IOException {
+    public static boolean isUserExists(String ID) throws IOException {
         List<User> users = loadUsers();
         for (User u : users) {
-            if (u.getUsername().equalsIgnoreCase(username)) {
+            if (u.getID().equalsIgnoreCase(ID)) {
                 return true;
             }
         }
