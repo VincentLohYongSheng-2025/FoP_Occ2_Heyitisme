@@ -4,8 +4,14 @@ public class SearchSystem{
 
     SalesSystem salesSystem = new SalesSystem();
 
+
     public static void searchStockInfo(SaleRecord saleRecord)
     {
+        if (saleRecord == null) {
+            System.out.println("Cannot search: No sales record provided.");
+            return;
+        }
+
         Scanner input = new Scanner(System.in);
         System.out.println("=== Search Stock Information ===");
 
@@ -16,6 +22,7 @@ public class SearchSystem{
             System.out.print("Search Model Name: ");
             String searchModelName = input.nextLine();
             System.out.println("Searching...");
+            System.out.println("Item not found");
             System.out.println();
 
             for (ItemPurchased item : saleRecord.item)
@@ -27,19 +34,19 @@ public class SearchSystem{
                     {
                         System.out.println("Model: " + item.model);
                         System.out.println("Unit Price: RM" + item.price);
-                        System.out.println("function for searching Stock quantity in cities still in developing.... ");
                         found = false;
                     }
                 }
             }
-
         }
-
     }
 
     public static void searchSalesInfo(SaleRecord saleRecord)
     {
-
+        if (saleRecord == null) {
+            System.out.println("Cannot search: No sales record provided.");
+            return;
+        }
 
         Scanner input = new Scanner(System.in);
         System.out.println("=== Search Sales Information ===");
@@ -47,11 +54,11 @@ public class SearchSystem{
 
         while (found)
         {
-        System.out.print("Search keyword: ");
-        String searchCustomerName = input.nextLine();
-        System.out.println("Searching...");
-        System.out.println();
-
+            System.out.print("Search keyword: ");
+            String searchCustomerName = input.nextLine();
+            System.out.println("Searching...");
+            System.out.println("Sales record not found");
+            System.out.println();
 
             // FIX: Replaced undefined 'sale' variable with the parameter 'saleRecord'.
             if (saleRecord.customerName.equalsIgnoreCase(searchCustomerName))
