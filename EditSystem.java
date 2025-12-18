@@ -1,52 +1,78 @@
-import java.util.Scanner;
+import java.util.*;
+
 
 public class EditSystem
 {
-
-    public static SaleRecord EditStockInfo(SaleRecord saleRecord)
+    public void EditStockInfo(List<SaleRecord> saleRecords)
     {
         Scanner input = new Scanner(System.in);
-
-        System.out.println("=== Edit Stock Information === ");
-        System.out.print("Enter Model Name: ");
+        System.out.println("=== Edit Item Quantity in a Sale ===");
+        System.out.print("Enter Customer Name to find the sale: ");
+        String customerName = input.nextLine();
+        System.out.print("Enter Model Name to edit: ");
         String editModelName = input.nextLine();
 
-        for (ItemPurchased item : saleRecord.item)
-        {
-            // FIX: Changed 'searchModelName' to the declared variable 'editModelName'.
-            if (item.model.equalsIgnoreCase(editModelName))
-            {
-                // A null check for safety
-                if (item != null && item.model.equalsIgnoreCase(editModelName))
-                {
-                    System.out.println("Current Stock: " + item.quantity);
-                    System.out.print("Enter New Stock: ");
-                    int newStock = input.nextInt();
-                    item.quantity = newStock;
-                    return saleRecord;
+        boolean recordFound = false;
+        for (SaleRecord saleRecord : saleRecords) {
+            if (saleRecord.customerName.equalsIgnoreCase(customerName)) {
+                recordFound = true;
+                for (ItemPurchased item : saleRecord.item) {
+                    if (item.model.equalsIgnoreCase(editModelName)) {
+                        System.out.println("Current Quantity for " + item.model + " in this sale: " + item.quantity);
+                        System.out.print("Enter New Quantity: ");
+                        int newStock = input.nextInt();
+                        input.nextLine(); // Consume newline
+
+                        System.out.print("Confirm Update? (Y/N): ");
+                        if (input.nextLine().equalsIgnoreCase("Y")) {
+                            item.quantity = newStock;
+                            System.out.println("Quantity updated successfully in the record.");
+                            // TODO: You would need to re-save the entire sales list to a file here.
+                        }
+                        return; // Exit after finding and attempting update
+                    }
                 }
             }
         }
-        // Added a return statement here for the case where the item is not found
-        return saleRecord;
+        if (!recordFound) {
+            System.out.println("No sales record found for that customer.");
+        } else {
+            System.out.println("Model not found in that customer's sales record.");
+        }
     }
 
-    public static SaleRecord EditSalesInfo(SaleRecord saleRecord)
+    public void EditSalesInfo(List<SaleRecord> saleRecords)
     {
+        if (saleRecords == null || saleRecords.isEmpty()) {
+            System.out.println("Cannot edit: No sales records provided.");
+            return;
+        }
         Scanner input = new Scanner(System.in);
 
         System.out.println("=== Edit Sales Information === ");
-        System.out.print("Enter Transaction Date: ");
-        String editTransacDate = input.nextLine();
-        System.out.print("Enter Customer Name: ");
+        System.out.print("Enter Customer Name to find record: ");
         String editCustomerName = input.nextLine();
 
-        //add logic to detect with records
+        SaleRecord recordToEdit = null;
+        for (SaleRecord saleRecord : saleRecords) {
+            if (saleRecord.customerName.equalsIgnoreCase(editCustomerName)) {
+                recordToEdit = saleRecord;
+                break;
+            }
+        }
+
+        if (recordToEdit == null) {
+            System.out.println("Sales Record Not Found.");
+            return;
+        }
+
         System.out.println("Sales Record Found:");
-        // FIX: Accessing the first item in the list using .get(0)
-        System.out.println("Model: " + saleRecord.item.get(0).model + "   Quantity: " + saleRecord.item.get(0).quantity );
-        System.out.println("Total: RM" + (saleRecord.item.get(0).price*saleRecord.item.get(0).quantity));
-        System.out.println("Transaction Method: "+ saleRecord.paymentMethod);
+        // Assuming you want to display the first item's details for editing
+        ItemPurchased firstItem = recordToEdit.item.get(0);
+
+        System.out.println("Model: " + firstItem.model + "   Quantity: " + firstItem.quantity);
+        System.out.println("Total: RM" + recordToEdit.totalAmount);
+        System.out.println("Transaction Method: " + recordToEdit.paymentMethod);
 
         System.out.println("Select number to edit:");
         System.out.println("1.Name 2.Model 3.Quantity 4.Total 5.Transaction Method");
@@ -61,7 +87,8 @@ public class EditSystem
                 String newName = input.nextLine();
                 System.out.print("Confirm Update? (Y/N): ");
                 if (input.nextLine().equalsIgnoreCase("Y")) {
-                    saleRecord.customerName = newName;
+                    // FIX: Use the correct variable 'recordToEdit'.
+                    recordToEdit.customerName = newName;
                 }
             }
             case 2 -> {
@@ -70,8 +97,8 @@ public class EditSystem
                 System.out.print("Confirm Update? (Y/N) :");
                 if (input.nextLine().equalsIgnoreCase("Y"))
                 {
-                    // FIX: Accessing the first item in the list using .get(0)
-                    saleRecord.item.get(0).model = newModel;
+                    // FIX: Use 'recordToEdit' and access the first item in the list.
+                    recordToEdit.item.get(0).model = newModel;
                 }
             }
             case 3 -> {
@@ -80,8 +107,8 @@ public class EditSystem
                 input.nextLine(); // Consume newline
                 System.out.print("Confirm Update? (Y/N): ");
                 if (input.nextLine().equalsIgnoreCase("Y")) {
-                    // FIX: Edit the quantity of the FIRST item in the list.
-                    saleRecord.item.get(0).quantity = newQuantity;
+                    // FIX: Use 'recordToEdit' and access the first item in the list.
+                    recordToEdit.item.get(0).quantity = newQuantity;
                 }
             }
             case 4 -> {
@@ -90,7 +117,7 @@ public class EditSystem
                 input.nextLine(); // Consume newline
                 System.out.print("Confirm Update? (Y/N): ");
                 if (input.nextLine().equalsIgnoreCase("Y")) {
-                    saleRecord.totalAmount = newTotal;
+                    recordToEdit.totalAmount = newTotal;
                 }
             }
             case 5 -> {
@@ -98,12 +125,11 @@ public class EditSystem
                 String newTransactionMethod = input.nextLine();
                 System.out.print("Confirm Update? (Y/N): ");
                 if (input.nextLine().equalsIgnoreCase("Y")) {
-                    saleRecord.paymentMethod = newTransactionMethod;
+                    recordToEdit.paymentMethod = newTransactionMethod;
                 }
             }
         }
 
         System.out.println("Sales information updated successfully.");
-        return saleRecord;
     }
 }
