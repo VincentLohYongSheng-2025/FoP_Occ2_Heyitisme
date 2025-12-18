@@ -1,84 +1,76 @@
-import java.util.Scanner;
+import java.util.List;
+import java.util.*;
 
 public class SearchSystem{
 
     SalesSystem salesSystem = new SalesSystem();
 
 
-    public static void searchStockInfo(SaleRecord saleRecord)
+    // FIX: Renamed parameter to 'saleRecords' to match its usage.
+    public void searchStockInfo(List<SaleRecord> saleRecords)
     {
-        if (saleRecord == null) {
-            System.out.println("Cannot search: No sales record provided.");
+        // FIX: Corrected null check to use 'saleRecords'.
+        if (saleRecords == null || saleRecords.isEmpty()) {
+            System.out.println("Cannot search: No sales records provided.");
             return;
         }
 
         Scanner input = new Scanner(System.in);
         System.out.println("=== Search Stock Information ===");
+        System.out.print("Search Model Name: ");
+        String searchModelName = input.nextLine();
+        System.out.println("Searching...");
 
-        boolean found = true;
-
-        while (found)
-        {
-            System.out.print("Search Model Name: ");
-            String searchModelName = input.nextLine();
-            System.out.println("Searching...");
-            System.out.println("Item not found");
-            System.out.println();
-
-            for (ItemPurchased item : saleRecord.item)
-            {
-                if (item.model.equalsIgnoreCase(searchModelName))
-                {
-                    // A null check for safety
-                    if (item != null && item.model.equalsIgnoreCase(searchModelName))
-                    {
-                        System.out.println("Model: " + item.model);
-                        System.out.println("Unit Price: RM" + item.price);
-                        found = false;
-                    }
+        boolean modelFound = false;
+        // FIX: Loop through the list of records.
+        for (SaleRecord saleRecord : saleRecords) {
+            // FIX: Loop through the items within each record.
+            for (ItemPurchased item : saleRecord.item) {
+                if (item.model.equalsIgnoreCase(searchModelName)) {
+                    System.out.println("Model: " + item.model);
+                    System.out.println("Unit Price: RM" + item.price);
+                    System.out.println("Quantity in this sale: " + item.quantity);
+                    modelFound = true;
                 }
             }
         }
+
+        if (!modelFound) {
+            System.out.println("Item not found in any sales record.");
+        }
     }
 
-    public static void searchSalesInfo(SaleRecord saleRecord)
+    public void searchSalesInfo(List<SaleRecord> saleRecords)
     {
-        if (saleRecord == null) {
-            System.out.println("Cannot search: No sales record provided.");
+        // FIX: Corrected null check to use 'saleRecords'.
+        if (saleRecords == null || saleRecords.isEmpty()) {
+            System.out.println("Cannot search: No sales records provided.");
             return;
         }
 
         Scanner input = new Scanner(System.in);
         System.out.println("=== Search Sales Information ===");
-        boolean found = true;
+        System.out.print("Search keyword (Customer Name): ");
+        String searchCustomerName = input.nextLine();
+        System.out.println("Searching...");
 
-        while (found)
-        {
-            System.out.print("Search keyword: ");
-            String searchCustomerName = input.nextLine();
-            System.out.println("Searching...");
-            System.out.println("Sales record not found");
-            System.out.println();
-
-            // FIX: Replaced undefined 'sale' variable with the parameter 'saleRecord'.
-            if (saleRecord.customerName.equalsIgnoreCase(searchCustomerName))
-            {
-                System.out.println("Sales Record Found:");
-                // FIX: Replaced 'sale' with 'saleRecord' in all the following lines.
-                System.out.println("Date:" + saleRecord.localDateTime.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "        Time:" + saleRecord.localDateTime.format(java.time.format.DateTimeFormatter.ofPattern("hh:mm a")));
-                System.out.println("Customer Name: " + saleRecord.customerName);
-                System.out.println("Transaction Method: " + saleRecord.paymentMethod);
-                System.out.println("Employee: " + saleRecord.employeeInCharge);
-                System.out.println("Status: " + saleRecord.transactionStatus);
-                found = false;
+        boolean recordFound = false;
+        // FIX: Loop through all sale records to find matches.
+        for (SaleRecord saleRecord : saleRecords) {
+            if (saleRecord.customerName.equalsIgnoreCase(searchCustomerName)) {
+                System.out.println("--- Sales Record Found ---");
+                System.out.println(saleRecord.toString());
+                System.out.println("--------------------------");
+                recordFound = true;
             }
+        }
+
+        if (!recordFound) {
+            System.out.println("Sales record not found for the given keyword.");
         }
     }
 
-    public static void main(String[] args) {
-        searchStockInfo(null);
 
-    }
 
 
 }
