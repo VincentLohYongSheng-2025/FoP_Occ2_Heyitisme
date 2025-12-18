@@ -23,8 +23,7 @@ class ItemPurchased
 }
 
 
-class SaleRecord
-{
+class SaleRecord {
     LocalDateTime localDateTime;
     String customerName;
     List<ItemPurchased> item;
@@ -33,8 +32,7 @@ class SaleRecord
     String employeeInCharge;
     String transactionStatus;
 
-    public SaleRecord(LocalDateTime localDateTime, String customerName, List<ItemPurchased> item, String paymentMethod, double totalAmount, String employeeInCharge,String transactionStatus)
-    {
+    public SaleRecord(LocalDateTime localDateTime, String customerName, List<ItemPurchased> item, String paymentMethod, double totalAmount, String employeeInCharge, String transactionStatus) {
         this.localDateTime = localDateTime;
         this.customerName = customerName;
         this.item = item;
@@ -44,8 +42,7 @@ class SaleRecord
         this.transactionStatus = transactionStatus;
     }
 
-    public String toString()
-    {
+    public String toString() {
         String date = localDateTime.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String time = localDateTime.format(java.time.format.DateTimeFormatter.ofPattern("hh:mm a"));
 
@@ -53,8 +50,7 @@ class SaleRecord
         receipt.append("Date: ").append(date).append(" Time: ").append(time).append("\n");
         receipt.append("Customer: ").append(customerName).append("\n");
         receipt.append("Item(s):\n");
-        for (ItemPurchased items : item)
-        {
+        for (ItemPurchased items : item) {
             receipt.append("  - ").append(items.model).append(" Quantity: ").append(items.quantity).append("\n");
         }
         receipt.append("Total: RM").append(totalAmount).append("\n");
@@ -62,6 +58,33 @@ class SaleRecord
         receipt.append("Employee: ").append(employeeInCharge).append("\n");
         return receipt.toString();
     }
+
+    public String toSalesCsvString()
+    {
+        StringBuilder csv = new StringBuilder();
+        for (ItemPurchased items : this.item)
+        {
+            csv.append(this.localDateTime.toString()).append(",");
+            csv.append(this.customerName).append(",");
+            csv.append(items.model).append(",");
+            csv.append(items.quantity).append(",");
+            csv.append(this.totalAmount).append("\n");
+        }
+        return csv.toString();
+    }
+
+    public String toModelCsvString()
+    {
+        StringBuilder csv = new StringBuilder();
+        for (ItemPurchased items : this.item)
+        {
+            csv.append(items.model).append(",");
+            csv.append(items.price).append(",");
+            csv.append(items.quantity).append("\n");
+        }
+        return csv.toString();
+    }
+
 
 }
 
@@ -84,7 +107,6 @@ public class SalesSystem
 
     public static SaleRecord recordNewSale(Scanner input, String employeeInCharge) throws IOException
     {
-        // developer note: need to have exception testing in future
 
 
         // getting the Data and the Time locally
@@ -99,6 +121,7 @@ public class SalesSystem
         System.out.print("Customer Name: ");
         String customerName = input.nextLine();
         System.out.println("Item(s) Purchased: ");
+
 
         // way to study arraylist first to continue
         List<ItemPurchased> itemPurchased = new ArrayList<>();
@@ -142,15 +165,16 @@ public class SalesSystem
         // To record the Sales, pass the list of items
         SaleRecord newSale = new SaleRecord(localDateTime, customerName, itemPurchased, transactionMethod, subtotal, employeeInCharge,transactionStatus);
 
-        // TODO: Store the 'newSale' object, for example, by writing it to a CSV file.
-        // For now, we just confirm it's created.
+
         System.out.println("Transaction successful.");
 
 
         System.out.println("Sale recorded successfully.");
+        saveToSalesCsv(newSale);
 
-        // TODO : to update the
+        // TODO : to update the model csv
         System.out.println("Model quantities updated successfully.");
+        saveToModelCsv(newSale);
 
         generateReceipt(newSale);
 
@@ -171,6 +195,36 @@ public class SalesSystem
             writer.write("============================================== \n");
         }
     }
+
+    public static void saveToSalesCsv(SaleRecord saleRecord)
+    {
+        String fileName = "sales_data.csv";
+
+        try(FileWriter writer = new FileWriter(fileName,true))
+            {
+                writer.write(saleRecord.toSalesCsvString());
+            } catch (IOException e)
+            {
+                System.out.println(e.getMessage());
+            }
+
+    }
+
+    public static void saveToModelCsv(SaleRecord saleRecord)
+    {
+        String fileName = "model.csv";
+
+        try(FileWriter writer = new FileWriter(fileName,true))
+            {
+                writer.write(saleRecord.toModelCsvString());
+            }
+            catch (IOException e)
+            {
+                System.out.println(e.getMessage());
+            }
+    }
+
+
 
     public static void main(String[] args) throws IOException{
 
