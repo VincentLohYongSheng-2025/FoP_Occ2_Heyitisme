@@ -8,12 +8,12 @@ import java.util.List;
 
 public class LoginSystem {
 
-    public static User login(String username, String password) throws IOException {
+    public static User login(String ID, String password) throws IOException {
         List<User> users = UserManager.loadUsers();
 
         for (User u : users) {
             // Check if username and password match
-            if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
+            if (u.getID().equals(ID) && u.getPassword().equals(password)) {
                 return u; // Return the found user object
             }
         }
