@@ -34,16 +34,16 @@ public class Main {
     private static void handleLogin() {
         System.out.println("\n=== Employee Login ===");
         System.out.print("Enter User ID: ");
-        String username = scanner.nextLine();
+        String ID = scanner.nextLine();
         System.out.print("Enter Password: ");
         String password = scanner.nextLine();
 
         try {
-            currentUser = LoginSystem.login(username, password);
+            currentUser = LoginSystem.login(ID, password);
 
             if (currentUser != null) {
                 System.out.println("Login Successful!");
-                System.out.println("Welcome, " + currentUser.getName() + " (" + currentUser.getUsername() + ")");
+                System.out.println("Welcome, " + currentUser.getID() + " (" + currentUser.getUsername() + ")");
                 
                 // Start the session for this user
                 userSession();
@@ -75,8 +75,9 @@ public class Main {
             switch (choice) {
                 case "1":
                     System.out.println("\n--- Profile ---");
-                    System.out.println("Name: " + currentUser.getName());
-                    System.out.println("ID:   " + currentUser.getUsername());
+                    System.out.println("Name: " + currentUser.getUsername());
+
+                    System.out.println("ID:   " + currentUser.getID());
                     System.out.println("Role: " + currentUser.getRole());
                     break;
                 case "2":
@@ -101,11 +102,12 @@ public class Main {
     private static void handleRegistration() {
         System.out.println("\n=== Register New Employee ===");
         try {
-            System.out.print("Enter Employee Name: ");
-            String name = scanner.nextLine();
 
             System.out.print("Enter Employee ID: ");
             String id = scanner.nextLine();
+
+            System.out.print("Enter Employee Username: ");
+            String name = scanner.nextLine();
 
             // Validation: Check if ID exists immediately
             if (UserManager.isUserExists(id)) {
@@ -119,8 +121,8 @@ public class Main {
             System.out.print("Set Role (manager/employee): ");
             String role = scanner.nextLine();
 
-            // Create and save
-            User newUser = new User(id, pass, role, name);
+            // Create and save (constructor is: User(ID, username, role, password))
+            User newUser = new User(id, name, role.toLowerCase(), pass);
             UserManager.addUser(newUser);
             System.out.println("Success! Employee " + name + " registered.");
 
