@@ -24,7 +24,7 @@ public class allAttendanceLog {
     // Load employees from file
     public void loadEmployees(String filename) {
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            String line;
+            String line = br.readLine(); // skip header line
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length >= 3) {
@@ -95,6 +95,7 @@ public class allAttendanceLog {
         System.out.println("Clock In Successful!");
         System.out.println("Date: " + today.format(dateFormat));
         System.out.println("Time: " + formattedTime);
+        SaveAttendanceLog(ATTENDANCE_FILE_NAME);
     }
 
     //Clock Out
@@ -163,5 +164,27 @@ public class allAttendanceLog {
             }
         }
         return null;
+    }
+
+    //View all attendance logs
+    public void viewAttendanceLog(){
+        if(attendance.isEmpty()) {
+            System.out.println("No attendance records found.");
+            return;
+        }
+
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("hh:mm a");
+        System.out.println("\n========== Attendance Log ==========");
+        System.out.printf("%-10s %-25s %-15s %-10s %-10s %-12s%n", "Employee ID", "Name", "Date", "Clock In", "Clock Out", "Worked Hours");
+
+        for(AttendanceLog log: attendance){
+            Employee emp = findEmployeeByID(log.getEmployeeID());
+            String name = (emp != null) ? emp.getName() : "Unknown";
+            String clockOut = (log.getClockOut() != null) ? log.getClockOut().format(timeFormat).toString() : "-";
+            double hours = (log.getClockOut() != null) ? log.gettotal_hours_worked() : 0.0;
+
+            System.out.printf("%-10s %-25s %-15s %-10s %-10s %-12.2f%n",log.getEmployeeID(), 
+                               name, log.getdate(), log.getClockIn().format(timeFormat), clockOut, hours);
+        }
     }
 }

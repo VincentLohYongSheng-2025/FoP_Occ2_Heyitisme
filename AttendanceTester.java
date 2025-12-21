@@ -17,8 +17,9 @@ public class AttendanceTester{
             System.out.println("\n===== Attendance System =====");
             System.out.println("1. Clock In");
             System.out.println("2. Clock Out");
-            System.out.println("3. Save Attendance Log");
-            System.out.println("4. Exit");
+            System.out.println("3. View Attendance Log");
+            System.out.println("4. Save Attendance Log");
+            System.out.println("5. Exit");
             System.out.print("Choose option: ");
             int choice = input.nextInt();
             input.nextLine(); // clear buffer
@@ -37,11 +38,15 @@ public class AttendanceTester{
                     break;
 
                 case 3:
+                    all.viewAttendanceLog();
+                    break;
+
+                case 4:
                     // Saves the current state of logs (now uses consistent constant name)
                     all.SaveAttendanceLog("Attendance Log.csv"); 
                     break;
 
-                case 4:
+                case 5:
                     System.out.println("Goodbye!");
                     return;
 
