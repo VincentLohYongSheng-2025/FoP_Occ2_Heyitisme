@@ -253,34 +253,39 @@ public class SalesSystem
 
     public static void main(String[] args) throws IOException
     {
-        Scanner input = new Scanner(System.in);
+//        Scanner input = new Scanner(System.in);
+//
+//        //here to create a searchsystem object for SearchSystem class
+//        SearchSystem searchSystem = new SearchSystem();
+//
+//        // FIX: Load existing records from files
+//        List<SaleRecord> saleRecords = readRecords();
+//
+//        // FIX: Optionally record a new sale and add it to the list
+//        SaleRecord newSale = recordNewSale(input, /*this employee will import from norman*/"John Doe");
+//        saleRecords.add(newSale);
+//
+//        // FIX: Pass the entire list to the search and edit methods
+//        searchSystem.searchStockInfo(saleRecords);
+//        System.out.println();
+//        searchSystem.searchSalesInfo(saleRecords);
+//        System.out.println();
+//
+//        //here to create a editsystem object for EditSystem class
+//        EditSystem editSystem = new EditSystem();
+//        editSystem.EditStockInfo(saleRecords);
+//        System.out.println();
+//        editSystem.EditSalesInfo(saleRecords);
+//        System.out.println();
+//
+//        searchSystem.searchStockInfo(saleRecords);
+//        System.out.println();
+//        searchSystem.searchSalesInfo(saleRecords);
+//        System.out.println();
 
-        //here to create a searchsystem object for SearchSystem class
-        SearchSystem searchSystem = new SearchSystem();
 
-        // FIX: Load existing records from files
-        List<SaleRecord> saleRecords = readRecords();
+        //so the idea is to integrate the all class in SalesSystem so that when access to SalesSystem they can use all these function
 
-        // FIX: Optionally record a new sale and add it to the list
-        SaleRecord newSale = recordNewSale(input, /*this employee will import from norman*/"John Doe");
-        saleRecords.add(newSale);
-        
-        // FIX: Pass the entire list to the search and edit methods
-        searchSystem.searchStockInfo(saleRecords);
-        System.out.println();
-        searchSystem.searchSalesInfo(saleRecords);
-        System.out.println();
 
-        //here to create a editsystem object for EditSystem class
-        EditSystem editSystem = new EditSystem();
-        editSystem.EditStockInfo(saleRecords);
-        System.out.println();
-        editSystem.EditSalesInfo(saleRecords);
-        System.out.println();
-
-        searchSystem.searchStockInfo(saleRecords);
-        System.out.println();
-        searchSystem.searchSalesInfo(saleRecords);
-        System.out.println();
     }
 }
