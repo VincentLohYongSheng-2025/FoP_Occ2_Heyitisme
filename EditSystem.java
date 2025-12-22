@@ -19,17 +19,48 @@ public class EditSystem
                 for (ItemPurchased item : saleRecord.item) {
                     if (item.model.equalsIgnoreCase(editModelName)) {
                         System.out.println("Current Quantity for " + item.model + " in this sale: " + item.quantity);
-                        System.out.print("Enter New Quantity: ");
-                        int newStock = input.nextInt();
-                        input.nextLine(); // Consume newline
+                        
+                        // Show breakdown by location
+                        System.out.println("Location Breakdown:");
+                        for(int i=0; i<10; i++) {
+                            if(item.location.get(i) > 0) {
+                                System.out.println("C" + (60+i) + ": " + item.location.get(i));
+                            }
+                        }
+                        
+                        System.out.println("Select Location to edit (C60-C69):");
+                        int locationIndex = -1;
+                        while (locationIndex < 0 || locationIndex > 9) {
+                            for(int i=0; i<10; i++) {
+                                System.out.print((i+1) + ". C" + (60+i) + "  ");
+                                if((i+1)%5==0) System.out.println();
+                            }
+                            System.out.print("Enter selection (1-10): ");
+                            if (input.hasNextInt()) {
+                                locationIndex = input.nextInt() - 1;
+                            }
+                            input.nextLine();
+                        }
+                        
+                        System.out.println("Current Quantity at C" + (60+locationIndex) + ": " + item.location.get(locationIndex));
+                        System.out.print("Enter New Quantity for this location: ");
+                        int newLocQty = input.nextInt();
+                        input.nextLine();
 
                         System.out.print("Confirm Update? (Y/N): ");
-                        if (input.nextLine().equalsIgnoreCase("Y")) {
-                            item.quantity = newStock;
+                        if (input.nextLine().equalsIgnoreCase("Y"))
+                        {
+                            // Update location specific quantity
+                            int oldLocQty = item.location.get(locationIndex);
+                            item.location.set(locationIndex, newLocQty);
+                            
+                            // Update total quantity
+                            item.quantity = item.quantity - oldLocQty + newLocQty;
+                            
                             System.out.println("Quantity updated successfully in the record.");
-                            // TODO: You would need to re-save the entire sales list to a file here.
+
                         }
-                        return; // Exit after finding and attempting update
+                        return;
                     }
                 }
             }
@@ -97,18 +128,41 @@ public class EditSystem
                 System.out.print("Confirm Update? (Y/N) :");
                 if (input.nextLine().equalsIgnoreCase("Y"))
                 {
-                    // FIX: Use 'recordToEdit' and access the first item in the list.
                     recordToEdit.item.get(0).model = newModel;
                 }
             }
             case 3 -> {
-                System.out.print("Enter New Quantity: ");
+                // Enhanced quantity editing with location support
+                System.out.println("Current Total Quantity: " + recordToEdit.item.get(0).quantity);
+                System.out.println("Location Breakdown:");
+                for(int i=0; i<10; i++) {
+                    if(recordToEdit.item.get(0).location.get(i) > 0) {
+                        System.out.println("C" + (60+i) + ": " + recordToEdit.item.get(0).location.get(i));
+                    }
+                }
+                
+                System.out.println("Select Location to edit (C60-C69):");
+                int locationIndex = -1;
+                while (locationIndex < 0 || locationIndex > 9) {
+                    for(int i=0; i<10; i++) {
+                        System.out.print((i+1) + ". C" + (60+i) + "  ");
+                        if((i+1)%5==0) System.out.println();
+                    }
+                    System.out.print("Enter selection (1-10): ");
+                    if (input.hasNextInt()) {
+                        locationIndex = input.nextInt() - 1;
+                    }
+                    input.nextLine();
+                }
+                
+                System.out.print("Enter New Quantity for C" + (60+locationIndex) + ": ");
                 int newQuantity = input.nextInt();
                 input.nextLine(); // Consume newline
                 System.out.print("Confirm Update? (Y/N): ");
                 if (input.nextLine().equalsIgnoreCase("Y")) {
-                    // FIX: Use 'recordToEdit' and access the first item in the list.
-                    recordToEdit.item.get(0).quantity = newQuantity;
+                    int oldLocQty = recordToEdit.item.get(0).location.get(locationIndex);
+                    recordToEdit.item.get(0).location.set(locationIndex, newQuantity);
+                    recordToEdit.item.get(0).quantity = recordToEdit.item.get(0).quantity - oldLocQty + newQuantity;
                 }
             }
             case 4 -> {
