@@ -8,10 +8,10 @@ public class AttendanceTester{
 
         // 1. Load employees and attendance logs from file
         // NOTE: Ensure your Employee data is in a file named "Employee.csv"
-        all.loadEmployees("Employee.csv"); 
+        all.loadEmployees("employees.csv"); 
         
         // Load existing attendance logs (CRITICAL: Added this missing call)
-        all.loadAttendanceLog("Attendance Log.csv"); 
+        all.loadAttendanceLog("attendance.csv"); 
 
         while (true) {
             System.out.println("\n===== Attendance System =====");
@@ -43,7 +43,7 @@ public class AttendanceTester{
 
                 case 4:
                     // Saves the current state of logs (now uses consistent constant name)
-                    all.SaveAttendanceLog("Attendance Log.csv"); 
+                    all.SaveAttendanceLog("attendance.csv"); 
                     break;
 
                 case 5:

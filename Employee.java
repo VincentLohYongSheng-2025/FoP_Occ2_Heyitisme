@@ -10,6 +10,8 @@ public class Employee{
         this.employeeID = employeeID;
         this.name = name;
         this.outlet = outlet;
+        this.password = password;
+        this.role = role;
     }
 
     //Getter and Setter

@@ -11,7 +11,7 @@ public class AttendanceLog {
     private double total_hours_worked;
 
     //Formatter to convert Strings to Objects
-    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
    
     //Constructor
    public AttendanceLog(String employeeID, String dateStr) {
@@ -47,10 +47,10 @@ public class AttendanceLog {
     return date.toString();
    }
    public String getClockIn() {
-    return (ClockIn != null) ? ClockIn.format(timeFormatter) : "N/A";
+     return (ClockIn != null) ? ClockIn.format(timeFormatter).toLowerCase() : "N/A";
    }
    public String getClockOut() {
-    return (ClockOut != null) ? ClockOut.format(timeFormatter) : "N/A";
+    return (ClockOut != null) ? ClockOut.format(timeFormatter).toLowerCase() : "N/A";
    }
    public double gettotal_hours_worked() {
     return total_hours_worked;
