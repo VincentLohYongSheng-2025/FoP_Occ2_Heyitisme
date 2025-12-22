@@ -1,28 +1,32 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.Duration;
 
 public class AttendanceLog {
-    private String EmployeeID;
+    private String employeeID;
     private LocalDate date;
     private LocalTime ClockIn;
     private LocalTime ClockOut;
     private double total_hours_worked;
+
+    //Formatter to convert Strings to Objects
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
    
     //Constructor
-   public AttendanceLog(String EmployeeID, LocalDate date) {
-    this.EmployeeID = EmployeeID;
-    this.date = date;
+   public AttendanceLog(String employeeID, String dateStr) {
+    this.employeeID = employeeID;
+    this.date = LocalDate.parse(dateStr);
    }
    
-   //Clock-in
-   public void setClockIn(LocalTime ClockIn) {
-    this.ClockIn = ClockIn;
+   //Clock-in - accept String and convert to LocalTime
+   public void setClockIn(String timeStr) {
+    this.ClockIn = LocalTime.parse(timeStr, timeFormatter);
    }
 
-   //Clock-out and calculate Hours of worked
-   public void setClockOut(LocalTime ClockOut) {
-    this.ClockOut = ClockOut;
+   //Clock-out- accept String, store and calculate Hours of worked
+   public void setClockOut(String timeStr) {
+    this.ClockOut = LocalTime.parse(timeStr, timeFormatter);
     calculateTotalHoursWorked();
    }
 
@@ -37,18 +41,23 @@ public class AttendanceLog {
 
    //Getters
    public String getEmployeeID() {
-    return EmployeeID;
+    return employeeID;
    }
-   public LocalDate getdate() {
-    return date;
+   public String getdate() {
+    return date.toString();
    }
-   public LocalTime getClockIn() {
-    return ClockIn;
+   public String getClockIn() {
+    return (ClockIn != null) ? ClockIn.format(timeFormatter) : "N/A";
    }
-   public LocalTime getClockOut() {
-    return ClockOut;
+   public String getClockOut() {
+    return (ClockOut != null) ? ClockOut.format(timeFormatter) : "N/A";
    }
    public double gettotal_hours_worked() {
     return total_hours_worked;
+   }
+
+   //Helper to save to CSV
+   public String toCSV() {
+    return employeeID + "," + date + "," + getClockIn() + "," + getClockOut() + "," + total_hours_worked;
    }
 }

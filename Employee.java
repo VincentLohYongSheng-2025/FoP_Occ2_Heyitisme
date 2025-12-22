@@ -1,32 +1,50 @@
 public class Employee{
-    private String EmployeeID;
-    private String Name;
-    private String Outlet;
+    private String employeeID;
+    private String name;
+    private String outlet;
+    private String password;
+    private String role;
 
     //Constructor
-    public Employee(String EmployeeID, String Name, String Outlet) {
-        this.EmployeeID = EmployeeID;
-        this.Name = Name;
-        this.Outlet = Outlet;
+    public Employee(String employeeID, String name, String outlet, String password, String role) {
+        this.employeeID = employeeID;
+        this.name = name;
+        this.outlet = outlet;
     }
 
     //Getter and Setter
     public String getEmployeeID() {
-        return EmployeeID;
+        return employeeID;
     }
-    public void setEmployeeID(String EmployeeID) {
-        this.EmployeeID = EmployeeID;
+    public void setEmployeeID(String employeeID) {
+        this.employeeID = employeeID;
     }
     public String getName() {
-        return Name;
+        return name;
     }
-    public void setName(String Name) {
-        this.Name = Name;
+    public void setName(String name) {
+        this.name = name;
     }
     public String getOutlet() {
-        return Outlet;
+        return outlet;
     }
-    public void setOutlet(String Outlet) {
-        this.Outlet = Outlet;
+    public void setOutlet(String outlet) {
+        this.outlet = outlet;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
